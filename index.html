@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guitar Hero 3D - Pentagrama Musical</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Try multiple CDN sources for Three.js -->
+    <script>
+        function loadFallbackThree() {
+            // Try alternative CDN
+            var script = document.createElement('script');
+            script.src = 'https://threejs.org/build/three.min.js';
+            script.onerror = function() {
+                // Show error message if Three.js can't be loaded
+                document.getElementById('three-error').style.display = 'block';
+                console.error('Cannot load Three.js - 3D features disabled');
+            };
+            document.head.appendChild(script);
+        }
+    </script>
+    <script src="https://unpkg.com/three@0.128.0/build/three.min.js" 
+            onerror="loadFallbackThree()"></script>
+</head>
+<body>
+    <div id="game-container">
+        <!-- 3D Canvas -->
+        <canvas id="game-canvas"></canvas>
+        
+        <!-- Error message for Three.js loading failure -->
+        <div id="three-error" style="display: none;">
+            <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                        background: rgba(255, 0, 0, 0.9); padding: 20px; border-radius: 10px; 
+                        text-align: center; z-index: 9999; color: white;">
+                <h3>⚠️ Error de Carga</h3>
+                <p>No se pudo cargar Three.js. Los gráficos 3D no están disponibles.</p>
+                <p>Puedes usar los controles de audio y teclado normalmente.</p>
+                <button onclick="this.parentElement.parentElement.style.display='none'" 
+                        style="background: #4ecdc4; border: none; padding: 10px; border-radius: 5px; color: white; cursor: pointer;">
+                    Continuar sin 3D
+                </button>
+            </div>
+        </div>
+        
+        <!-- UI Controls -->
+        <div id="ui-controls">
+            <div id="score-panel">
+                <h2>Guitar Hero 3D</h2>
+                <div id="score">Puntuación: <span id="score-value">0</span></div>
+                <div id="combo">Combo: <span id="combo-value">0</span></div>
+            </div>
+            
+            <div id="control-panel">
+                <button id="play-btn" class="control-btn">▶ Play</button>
+                <button id="pause-btn" class="control-btn">⏸ Pause</button>
+                <button id="stop-btn" class="control-btn">⏹ Stop</button>
+                <button id="restart-btn" class="control-btn">🔄 Restart</button>
+            </div>
+            
+            <div id="info-panel">
+                <div id="current-note">Nota Actual: <span id="note-name">-</span></div>
+                <div id="progress">Progreso: <span id="progress-value">0</span>/30</div>
+                <div id="tempo">Tempo: <span id="tempo-value">120</span> BPM</div>
+            </div>
+        </div>
+        
+        <!-- Note Hit Zone -->
+        <div id="hit-zone">
+            <div class="hit-line" data-note="E4">E4</div>
+            <div class="hit-line" data-note="F4">F4</div>
+            <div class="hit-line" data-note="G4">G4</div>
+            <div class="hit-line" data-note="A4">A4</div>
+            <div class="hit-line" data-note="B4">B4</div>
+            <div class="hit-line" data-note="C5">C5</div>
+            <div class="hit-line" data-note="D5">D5</div>
+            <div class="hit-line" data-note="E5">E5</div>
+            <div class="hit-line" data-note="F5">F5</div>
+        </div>
+        
+        <!-- Visual Note Display -->
+        <div id="note-display">
+            <div id="current-note-display">
+                <div class="note-cylinder" id="active-note">
+                    <span class="note-label">-</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div id="instructions">
+            <h3>Instrucciones:</h3>
+            <p>Usa las teclas <strong>1-9</strong> para tocar las notas cuando aparezcan</p>
+            <p><strong>1:</strong> E4 | <strong>2:</strong> F4 | <strong>3:</strong> G4 | <strong>4:</strong> A4 | <strong>5:</strong> B4</p>
+            <p><strong>6:</strong> C5 | <strong>7:</strong> D5 | <strong>8:</strong> E5 | <strong>9:</strong> F5</p>
+            <p><strong>Barra espaciadora:</strong> Play/Pause</p>
+            <p><strong>Escape:</strong> Stop</p>
+        </div>
+    </div>
+    
+    <!-- Audio Context Warning -->
+    <div id="audio-warning" style="display: none;">
+        <p>Haz clic en cualquier lugar para activar el audio</p>
+    </div>
+    
+    <script src="midi-sounds.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
